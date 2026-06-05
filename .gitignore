@@ -1,0 +1,25 @@
+# Nuxt dev/build outputs
+.nuxt
+.output
+.data
+
+# Node dependencies
+node_modules
+
+# Prisma
+generated/
+
+# Env
+.env
+.env.*
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum UserRole {
+  ADMIN
+  PM
+}
+
+enum ProjectStatus {
+  IMPLEMENTING
+  ACTIVE
+  TERMINATED
+}
+
+enum ContractStatus {
+  ACTIVE
+  EXPIRED
+  TERMINATED
+}
+
+enum AlertType {
+  THREE_MONTH
+  ONE_MONTH
+  EXPIRED
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     String?
+  role      UserRole @default(PM)
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects Project[]
+}
+
+model Project {
+  id                Int            @id @default(autoincrement())
+  name              String
+  hospitalName      String
+  description       String?
+  status            ProjectStatus  @default(ACTIVE)
+  warrantyStartDate DateTime
+  warrantyEndDate   DateTime
+  managerId         Int
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  manager   User                 @relation(fields: [managerId], references: [id])
+  contracts MaintenanceContract[]
+  alerts    WarrantyAlert[]
+
+  @@index([managerId])
+  @@index([warrantyEndDate])
+}
+
+model MaintenanceContract {
+  id          Int            @id @default(autoincrement())
+  projectId   Int
+  contractNo  String
+  startDate   DateTime
+  endDate     DateTime
+  amount      Decimal?
+  description String?
+  status      ContractStatus  @default(ACTIVE)
+  createdAt   DateTime       @default(now())
+
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@index([projectId])
+}
+
+model WarrantyAlert {
+  id        Int       @id @default(autoincrement())
+  projectId Int
+  alertDate DateTime
+  alertType AlertType
+  isRead    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@index([projectId])
+  @@index([isRead])
+}

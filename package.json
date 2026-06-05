@@ -1,0 +1,38 @@
+{
+  "name": "nursing-maintenance",
+  "version": "1.0.0",
+  "description": "护理维保管理系统",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "postinstall": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.5.1",
+      "onFail": "download"
+    }
+  },
+  "dependencies": {
+    "@nuxt/ui": "^4.8.1",
+    "@prisma/client": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "node-cron": "^4.2.1",
+    "nuxt": "^4.4.7"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "prisma": "^6.0.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  }
+}
