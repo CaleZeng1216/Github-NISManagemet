@@ -1,4 +1,5 @@
-// startWarrantyCheckTask 由 server/tasks 自动导入
+import { startWarrantyCheckTask } from '../tasks/warranty-check'
+
 export default defineNitroPlugin(() => {
   startWarrantyCheckTask()
 })
